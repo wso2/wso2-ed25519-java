@@ -12,6 +12,7 @@
 package net.i2p.crypto.eddsa;
 
 import java.io.ByteArrayOutputStream;
+import java.math.BigInteger;
 import java.nio.ByteBuffer;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
@@ -29,6 +30,7 @@ import java.util.Arrays;
 import net.i2p.crypto.eddsa.math.Curve;
 import net.i2p.crypto.eddsa.math.GroupElement;
 import net.i2p.crypto.eddsa.math.ScalarOps;
+import net.i2p.crypto.eddsa.math.bigint.BigIntegerLittleEndianEncoding;
 
 /**
  * Signing and verification for EdDSA.
@@ -84,6 +86,9 @@ public final class EdDSAEngine extends Signature {
      *  Violate these rules and you will get a SignatureException.
      */
     public static final AlgorithmParameterSpec ONE_SHOT_MODE = new OneShotSpec();
+
+    public static final BigInteger ORDER =
+            new BigInteger("2").pow(252).add(new BigInteger("27742317777372353535851937790883648493"));
 
     private static class OneShotSpec implements AlgorithmParameterSpec {}
 
@@ -305,6 +310,17 @@ public final class EdDSAEngine extends Signature {
         h = key.getParams().getScalarOps().reduce(h);
 
         byte[] Sbyte = Arrays.copyOfRange(sigBytes, b/8, b/4);
+
+        /*
+         * Ensure S component of the Ed25519 signature is less than the group order (L)
+         * to comply with the spec and prevent acceptance of invalid signatures.
+         * Related issue: https://github.com/str4d/ed25519-java/issues/82.
+         */
+        BigInteger Sbigint = (new BigIntegerLittleEndianEncoding()).toBigInteger(Sbyte);
+        if (Sbigint.compareTo(ORDER) >= 0) {
+            return false;
+        }
+
         // R = SB - H(Rbar,Abar,M)A
         GroupElement R = key.getParams().getB().doubleScalarMultiplyVariableTime(
                 ((EdDSAPublicKey) key).getNegativeA(), h, Sbyte);
