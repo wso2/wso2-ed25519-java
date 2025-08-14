@@ -34,9 +34,10 @@
     </developer>
   </developers>
   <scm>
-    <connection>scm:git:git://github.com/wso2/wso2-ed25519-java.git</connection>
-    <developerConnection>scm:git:git@github.com:wso2/wso2-ed25519-java.git</developerConnection>
+    <connection>scm:git:https://github.com/wso2/wso2-ed25519-java.git</connection>
+    <developerConnection>scm:git:https://github.com/wso2/wso2-ed25519-java.git</developerConnection>
     <url>https://github.com/wso2/wso2-ed25519-java</url>
+    <tag>v0.3.0.wso2v1-SNAPSHOT</tag>
   </scm>
 
   <distributionManagement>
