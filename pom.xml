@@ -10,7 +10,7 @@
 
   <groupId>org.wso2.crypto.eddsa</groupId>
   <artifactId>wso2-eddsa</artifactId>
-  <version>0.3.0.wso2v1-SNAPSHOT</version>
+  <version>0.3.0-wso2v1-SNAPSHOT</version>
   <packaging>bundle</packaging>
   <name>WSO2 EdDSA-Java</name>
   <description>WSO2 fork of EdDSA Java implementation with additional fixes</description>
@@ -37,7 +37,7 @@
     <connection>scm:git:https://github.com/wso2/wso2-ed25519-java.git</connection>
     <developerConnection>scm:git:https://github.com/wso2/wso2-ed25519-java.git</developerConnection>
     <url>https://github.com/wso2/wso2-ed25519-java</url>
-    <tag>v0.3.0.wso2v1-SNAPSHOT</tag>
+    <tag>v0.3.0-wso2v1-SNAPSHOT</tag>
   </scm>
 
   <distributionManagement>
